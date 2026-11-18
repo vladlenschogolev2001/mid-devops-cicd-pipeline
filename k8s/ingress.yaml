@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mid-devops-app
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"  # раскомментируй при наличии cert-manager
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: mid-devops.local   # замени на свой домен
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mid-devops-app
+                port:
+                  number: 80
+  # tls:
+  #   - hosts:
+  #       - mid-devops.local
+  #     secretName: mid-devops-tls
